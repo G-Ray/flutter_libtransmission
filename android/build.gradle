@@ -60,6 +60,11 @@ android {
     }
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 26
+        externalNativeBuild {
+            cmake {
+                arguments "-DVCPKG_TARGET_ANDROID=ON"
+            }
+        }
     }
 }

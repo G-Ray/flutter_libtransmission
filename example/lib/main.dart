@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
-import 'package:flutter_libtransmission/flutter_libtransmission.dart' as flutter_libtransmission;
+import 'package:flutter_libtransmission/flutter_libtransmission.dart'
+    as flutter_libtransmission;
+import 'package:flutter_libtransmission_example/transmission.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,14 +19,50 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late int sumResult;
-  late Future<int> sumAsyncResult;
+  String responseAsyncResult = 'Loading';
+  Transmission transmission = Transmission();
+  late String _tempDirectoryPath;
 
   @override
   void initState() {
+    print('initState');
     super.initState();
-    sumResult = flutter_libtransmission.sum(1, 2);
-    sumAsyncResult = flutter_libtransmission.sumAsync(3, 4);
+  }
+
+  void handleInit() async {
+    final tmpDir = await getTemporaryDirectory();
+    _tempDirectoryPath = '${tmpDir.path}/flutter_libtransmission_config';
+    print('_tempDirectoryPath' + _tempDirectoryPath);
+
+    // Clean existing dir if it exist
+    if (Directory(_tempDirectoryPath).existsSync()) {
+      print("exist !!!");
+      Directory(_tempDirectoryPath).deleteSync(recursive: true);
+    }
+
+    flutter_libtransmission.initSession(
+        _tempDirectoryPath, 'flutter_libtransmission');
+  }
+
+  void handleRequest() async {
+    const jsonString = '''
+      {
+        "arguments": {
+           "fields": [
+             "version"
+           ]
+         },
+         "method": "session-get"
+      }
+    ''';
+    String res = await transmission.handleRequest(jsonString);
+    setState(() {
+      responseAsyncResult = res;
+    });
+  }
+
+  void handleClose() {
+    flutter_libtransmission.closeSession();
   }
 
   @override
@@ -46,24 +86,22 @@ class _MyAppState extends State<MyApp> {
                   textAlign: TextAlign.center,
                 ),
                 spacerSmall,
-                Text(
-                  'sum(1, 2) = $sumResult',
-                  style: textStyle,
-                  textAlign: TextAlign.center,
-                ),
+                Text(responseAsyncResult,
+                    style: textStyle, textAlign: TextAlign.center),
+                MaterialButton(
+                    onPressed: handleInit,
+                    color: Colors.blue,
+                    child: const Text('Init')),
                 spacerSmall,
-                FutureBuilder<int>(
-                  future: sumAsyncResult,
-                  builder: (BuildContext context, AsyncSnapshot<int> value) {
-                    final displayValue =
-                        (value.hasData) ? value.data : 'loading';
-                    return Text(
-                      'await sumAsync(3, 4) = $displayValue',
-                      style: textStyle,
-                      textAlign: TextAlign.center,
-                    );
-                  },
-                ),
+                MaterialButton(
+                    onPressed: handleRequest,
+                    color: Colors.blue,
+                    child: const Text('Request')),
+                spacerSmall,
+                MaterialButton(
+                    onPressed: handleClose,
+                    color: Colors.blue,
+                    child: const Text('Close'))
               ],
             ),
           ),

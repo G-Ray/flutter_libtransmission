@@ -1,17 +1,23 @@
-
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:ffi/ffi.dart';
+
 import 'flutter_libtransmission_bindings_generated.dart';
 
-/// A very short-lived native function.
-///
+const String _libName = 'flutter_libtransmission';
+
 /// For very short-lived functions, it is fine to call them on the main isolate.
 /// They will block the Dart execution while running the native function, so
 /// only do this for native functions which are guaranteed to be short-lived.
-int sum(int a, int b) => _bindings.sum(a, b);
+void initSession(String configDir, String appName) => _bindings.init_session(
+    configDir.toNativeUtf8().cast<Char>(), appName.toNativeUtf8().cast<Char>());
+
+void closeSession() => _bindings.close_session();
+
+void saveSettings() => _bindings.save_settings();
 
 /// A longer lived native function, which occupies the thread calling it.
 ///
@@ -23,17 +29,15 @@ int sum(int a, int b) => _bindings.sum(a, b);
 ///
 /// 1. Reuse a single isolate for various different kinds of requests.
 /// 2. Use multiple helper isolates for parallel execution.
-Future<int> sumAsync(int a, int b) async {
+Future<String> requestAsync(String json) async {
   final SendPort helperIsolateSendPort = await _helperIsolateSendPort;
-  final int requestId = _nextSumRequestId++;
-  final _SumRequest request = _SumRequest(requestId, a, b);
-  final Completer<int> completer = Completer<int>();
-  _sumRequests[requestId] = completer;
+  final int requestId = _nextTransmissionRequestId++;
+  final _TransmissionRequest request = _TransmissionRequest(requestId, json);
+  final Completer<String> completer = Completer<String>();
+  _requestRequests[requestId] = completer;
   helperIsolateSendPort.send(request);
   return completer.future;
 }
-
-const String _libName = 'flutter_libtransmission';
 
 /// The dynamic library in which the symbols for [FlutterLibtransmissionBindings] can be found.
 final DynamicLibrary _dylib = () {
@@ -50,35 +54,34 @@ final DynamicLibrary _dylib = () {
 }();
 
 /// The bindings to the native functions in [_dylib].
-final FlutterLibtransmissionBindings _bindings = FlutterLibtransmissionBindings(_dylib);
+final FlutterLibtransmissionBindings _bindings =
+    FlutterLibtransmissionBindings(_dylib);
 
-
-/// A request to compute `sum`.
+/// A request to send to transmission.
 ///
 /// Typically sent from one isolate to another.
-class _SumRequest {
+class _TransmissionRequest {
   final int id;
-  final int a;
-  final int b;
+  final String json;
 
-  const _SumRequest(this.id, this.a, this.b);
+  const _TransmissionRequest(this.id, this.json);
 }
 
-/// A response with the result of `sum`.
+/// A response with the result of the request.
 ///
 /// Typically sent from one isolate to another.
-class _SumResponse {
+class _TransmissionRequestResponse {
   final int id;
-  final int result;
+  final String result;
 
-  const _SumResponse(this.id, this.result);
+  const _TransmissionRequestResponse(this.id, this.result);
 }
 
-/// Counter to identify [_SumRequest]s and [_SumResponse]s.
-int _nextSumRequestId = 0;
+/// Counter to identify [_TransmissionRequest]s and [_TransmissionRequestResponse]s.
+int _nextTransmissionRequestId = 0;
 
-/// Mapping from [_SumRequest] `id`s to the completers corresponding to the correct future of the pending request.
-final Map<int, Completer<int>> _sumRequests = <int, Completer<int>>{};
+/// Mapping from [_TransmissionRequest] `id`s to the completers corresponding to the correct future of the pending request.
+final Map<int, Completer<String>> _requestRequests = <int, Completer<String>>{};
 
 /// The SendPort belonging to the helper isolate.
 Future<SendPort> _helperIsolateSendPort = () async {
@@ -97,10 +100,10 @@ Future<SendPort> _helperIsolateSendPort = () async {
         completer.complete(data);
         return;
       }
-      if (data is _SumResponse) {
+      if (data is _TransmissionRequestResponse) {
         // The helper isolate sent us a response to a request we sent.
-        final Completer<int> completer = _sumRequests[data.id]!;
-        _sumRequests.remove(data.id);
+        final Completer<String> completer = _requestRequests[data.id]!;
+        _requestRequests.remove(data.id);
         completer.complete(data.result);
         return;
       }
@@ -112,10 +115,14 @@ Future<SendPort> _helperIsolateSendPort = () async {
     final ReceivePort helperReceivePort = ReceivePort()
       ..listen((dynamic data) {
         // On the helper isolate listen to requests and respond to them.
-        if (data is _SumRequest) {
-          final int result = _bindings.sum_long_running(data.a, data.b);
-          final _SumResponse response = _SumResponse(data.id, result);
+        if (data is _TransmissionRequest) {
+          final result =
+              _bindings.request(data.json.toNativeUtf8().cast<Char>());
+          String str = result.cast<Utf8>().toDartString();
+          final _TransmissionRequestResponse response = _TransmissionRequestResponse(data.id, str);
           sendPort.send(response);
+          // Free allocated response char*
+          malloc.free(result);
           return;
         }
         throw UnsupportedError('Unsupported message type: ${data.runtimeType}');

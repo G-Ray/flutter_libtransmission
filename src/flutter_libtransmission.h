@@ -15,16 +15,26 @@
 #define FFI_PLUGIN_EXPORT
 #endif
 
-// A very short-lived native function.
-//
-// For very short-lived functions, it is fine to call them on the main isolate.
-// They will block the Dart execution while running the native function, so
-// only do this for native functions which are guaranteed to be short-lived.
-FFI_PLUGIN_EXPORT int sum(int a, int b);
+#define C_EXPORT __attribute__((visibility("default"))) __attribute__((used))
+#ifdef __cplusplus
+#define C_EXPORT                                                               \
+  extern "C" __attribute__((visibility("default"))) __attribute__((used))
+#endif
 
-// A longer lived native function, which occupies the thread calling it.
-//
-// Do not call these kind of native functions in the main isolate. They will
-// block Dart execution. This will cause dropped frames in Flutter applications.
-// Instead, call these native functions on a separate isolate.
-FFI_PLUGIN_EXPORT int sum_long_running(int a, int b);
+// Initialize a transmission session given a config dir and an app name.
+C_EXPORT
+FFI_PLUGIN_EXPORT void init_session(char *config_dir, char *app_name);
+
+// Close transmission session.
+C_EXPORT
+FFI_PLUGIN_EXPORT void close_session();
+
+/* Long running function which should be called asynchronously.
+ * This function will return a char pointer which should be freed.
+ */
+C_EXPORT
+FFI_PLUGIN_EXPORT char *request(char *json_string);
+
+// Save current transmission settings to disk.
+C_EXPORT
+FFI_PLUGIN_EXPORT void save_settings();
