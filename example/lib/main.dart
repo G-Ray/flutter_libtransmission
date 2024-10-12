@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-
-import 'package:flutter_libtransmission/flutter_libtransmission.dart'
-    as flutter_libtransmission;
 import 'package:flutter_libtransmission_example/transmission.dart';
 
 void main() {
@@ -19,29 +13,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String responseAsyncResult = 'Loading';
-  Transmission transmission = Transmission();
-  late String _tempDirectoryPath;
+  String responseAsyncResult = '';
+  Transmission tr = Transmission();
 
   @override
   void initState() {
-    print('initState');
     super.initState();
   }
 
   void handleInit() async {
-    final tmpDir = await getTemporaryDirectory();
-    _tempDirectoryPath = '${tmpDir.path}/flutter_libtransmission_config';
-    print('_tempDirectoryPath' + _tempDirectoryPath);
-
-    // Clean existing dir if it exist
-    if (Directory(_tempDirectoryPath).existsSync()) {
-      print("exist !!!");
-      Directory(_tempDirectoryPath).deleteSync(recursive: true);
-    }
-
-    flutter_libtransmission.initSession(
-        _tempDirectoryPath, 'flutter_libtransmission');
+    tr.initSession();
   }
 
   void handleRequest() async {
@@ -55,14 +36,14 @@ class _MyAppState extends State<MyApp> {
          "method": "session-get"
       }
     ''';
-    String res = await transmission.handleRequest(jsonString);
+    String res = await tr.requestAsync(jsonString);
     setState(() {
       responseAsyncResult = res;
     });
   }
 
   void handleClose() {
-    flutter_libtransmission.closeSession();
+    tr.closeSession();
   }
 
   @override

@@ -23,13 +23,13 @@ void main() {
         }
       ''';
 
-      tr.handleInit();
+      tr.initSession();
 
-      String res = await tr.handleRequest(jsonString);
+      String res = await tr.requestAsync(jsonString);
 
       expect(jsonDecode(res)['result'], "success");
 
-      tr.handleClose();
+      tr.closeSession();
     });
   });
 }
