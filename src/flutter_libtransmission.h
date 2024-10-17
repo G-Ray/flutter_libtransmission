@@ -15,10 +15,11 @@
 #define FFI_PLUGIN_EXPORT
 #endif
 
-#define C_EXPORT __attribute__((visibility("default"))) __attribute__((used))
 #ifdef __cplusplus
 #define C_EXPORT                                                               \
   extern "C" __attribute__((visibility("default"))) __attribute__((used))
+#else
+  #define C_EXPORT __attribute__((visibility("default"))) __attribute__((used))
 #endif
 
 // Initialize a transmission session given a config dir and an app name.
