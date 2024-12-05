@@ -4,13 +4,12 @@ Demonstrates how to use the flutter_libtransmission plugin.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+vcpkg needs to be initialized to compile openssl & curl for Windows & Android.
 
-A few resources to get you started if this is your first Flutter project:
+```sh
+./vcpkg/bootstrap-vcpkg.sh # or ./vcpkg/bootstrap-vcpkg.bat on Windows
+VCPKG_MANIFEST_DIR= #path to the folder containing vcpkg.json
+VCPKG_ROOT=absolute/path/to/vcpkg # Define an env var pointing to the local vcpkg directory
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+On Windows, define a `TRANSMISSION_PREFIX` env var to avoid https://gitlab.kitware.com/cmake/cmake/-/issues/25936

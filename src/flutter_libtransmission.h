@@ -10,32 +10,23 @@
 #endif
 
 #if _WIN32
-#define FFI_PLUGIN_EXPORT __declspec(dllexport)
+#define FFI_PLUGIN_EXPORT extern "C" __declspec(dllexport)
+#elif __cplusplus
+#define FFI_PLUGIN_EXPORT extern "C" __attribute__((visibility("default"))) __attribute__((used))
 #else
-#define FFI_PLUGIN_EXPORT
-#endif
-
-#ifdef __cplusplus
-#define C_EXPORT                                                               \
-  extern "C" __attribute__((visibility("default"))) __attribute__((used))
-#else
-  #define C_EXPORT __attribute__((visibility("default"))) __attribute__((used))
+#define FFI_PLUGIN_EXPORT __attribute__((visibility("default"))) __attribute__((used))
 #endif
 
 // Initialize a transmission session given a config dir and an app name.
-C_EXPORT
 FFI_PLUGIN_EXPORT void init_session(char *config_dir, char *app_name);
 
 // Close transmission session.
-C_EXPORT
 FFI_PLUGIN_EXPORT void close_session();
 
 /* Long running function which should be called asynchronously.
  * This function will return a char pointer which should be freed.
  */
-C_EXPORT
 FFI_PLUGIN_EXPORT char *request(char *json_string);
 
 // Save current transmission settings to disk.
-C_EXPORT
 FFI_PLUGIN_EXPORT void save_settings();
