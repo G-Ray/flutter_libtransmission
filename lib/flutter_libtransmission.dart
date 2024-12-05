@@ -121,8 +121,6 @@ Future<SendPort> _helperIsolateSendPort = () async {
           String str = result.cast<Utf8>().toDartString();
           final _TransmissionRequestResponse response = _TransmissionRequestResponse(data.id, str);
           sendPort.send(response);
-          // Free allocated response char*
-          malloc.free(result);
           return;
         }
         throw UnsupportedError('Unsupported message type: ${data.runtimeType}');

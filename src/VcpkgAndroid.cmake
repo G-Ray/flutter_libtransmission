@@ -19,6 +19,9 @@
 # it is introduced for the need of this script
 
 if (VCPKG_TARGET_ANDROID)
+    if (DEFINED ENV{VCPKG_MANIFEST_DIR})
+        set(VCPKG_MANIFEST_DIR $ENV{VCPKG_MANIFEST_DIR})
+    endif()
 
     #
     # 1. Check the presence of environment variable ANDROID_NDK_HOME
