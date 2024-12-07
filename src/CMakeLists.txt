@@ -21,7 +21,7 @@ endif()
 
 SET(TRANSMISSION_BUILD_DIR "${TRANSMISSION_PREFIX}/src/transmission-build")
 
-if(LINUX OR ANDROID)
+if(LINUX OR ANDROID OR APPLE)
         SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/libtransmission.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/libdht.a
@@ -51,7 +51,7 @@ elseif(WIN32)
                 Ws2_32
                 Crypt32
                 Iphlpapi
-        )
+)
 endif()
 
 if(LINUX)
@@ -59,6 +59,9 @@ if(LINUX)
                 "-DCMAKE_C_FLAGS=-fPIC"
                 "-DCMAKE_CXX_FLAGS=-fPIC"
         )
+elseif (APPLE)
+        string(REPLACE ";" "$<SEMICOLON>" CMAKE_OSX_ARCHITECTURES_ "${CMAKE_OSX_ARCHITECTURES}")
+        SET(CMAKE_ARGS "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}")
 elseif (ANDROID)
         SET(CMAKE_ARGS
                 "-DCMAKE_C_FLAGS=-fPIC"
@@ -123,10 +126,27 @@ add_dependencies(flutter_libtransmission transmission)
 ExternalProject_Get_property(transmission SOURCE_DIR)
 include_directories("${SOURCE_DIR}/libtransmission")
 
+if(APPLE)
+        # Use unified libs
+        SET(DEPENDENCIES 
+                ${CMAKE_SOURCE_DIR}/../macos/lib/libcrypto.a
+                ${CMAKE_SOURCE_DIR}/../macos/lib/libssl.a
+                ${CMAKE_SOURCE_DIR}/../macos/lib/libz.a
+                ${CMAKE_SOURCE_DIR}/../macos/lib/libcurl.a
+                "-framework Foundation"
+                "-framework SystemConfiguration"
+                "-framework Security"
+        )
+else()
+        SET(DEPENDENCIES 
+                OpenSSL::Crypto
+                OpenSSL::SSL
+                CURL::libcurl
+        )
+endif()
+
 target_link_libraries(flutter_libtransmission
-        OpenSSL::Crypto
-        OpenSSL::SSL
-        CURL::libcurl
+        ${DEPENDENCIES}
         "$<$<BOOL:${ANDROID}>:log>"
         ${LIBS}
 )

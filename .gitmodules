@@ -1,3 +1,3 @@
 [submodule "example/vcpkg"]
 	path = example/vcpkg
-	url = git@github.com:microsoft/vcpkg.git
+	url = https://github.com/microsoft/vcpkg.git
