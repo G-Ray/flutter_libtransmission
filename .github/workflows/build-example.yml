@@ -41,6 +41,30 @@ jobs:
         with:
           channel: stable
       - run: flutter build linux
+
+  macos:
+    runs-on: macos-14
+    defaults:
+      run:
+        working-directory: ./example
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install dependencies
+        run: |
+          brew install ninja
+      - name: Set up vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: ${{ github.workspace }}/example/vcpkg
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter build macos
+
   android:
     runs-on: ubuntu-24.04
     env:
