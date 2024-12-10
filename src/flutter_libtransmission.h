@@ -1,13 +1,12 @@
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <array>
+#include <cstring>
+#include <future>
+#include <string>
 
-#if _WIN32
-#include <windows.h>
-#else
-#include <pthread.h>
-#include <unistd.h>
-#endif
+#include "rpcimpl.h"
+#include "transmission.h"
+#include "utils.h"
+#include "variant.h"
 
 #if _WIN32
 #define FFI_PLUGIN_EXPORT extern "C" __declspec(dllexport)
@@ -30,3 +29,6 @@ FFI_PLUGIN_EXPORT char *request(char *json_string);
 
 // Save current transmission settings to disk.
 FFI_PLUGIN_EXPORT void save_settings();
+
+// Reset all session settings
+FFI_PLUGIN_EXPORT void reset_settings();

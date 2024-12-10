@@ -19,6 +19,8 @@ void closeSession() => _bindings.close_session();
 
 void saveSettings() => _bindings.save_settings();
 
+void resetSettings() => _bindings.reset_settings();
+
 /// A longer lived native function, which occupies the thread calling it.
 ///
 /// Do not call these kind of native functions in the main isolate. They will

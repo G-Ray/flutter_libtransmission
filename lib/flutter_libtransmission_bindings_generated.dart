@@ -78,4 +78,13 @@ class FlutterLibtransmissionBindings {
   late final _save_settingsPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function()>>('save_settings');
   late final _save_settings = _save_settingsPtr.asFunction<void Function()>();
+
+  /// Reset all session settings
+  void reset_settings() {
+    return _reset_settings();
+  }
+
+  late final _reset_settingsPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function()>>('reset_settings');
+  late final _reset_settings = _reset_settingsPtr.asFunction<void Function()>();
 }

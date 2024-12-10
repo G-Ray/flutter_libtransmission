@@ -1,14 +1,4 @@
-#include <array>
-#include <cstring>
-#include <future>
-#include <string>
-
 #include "flutter_libtransmission.h"
-
-#include "rpcimpl.h"
-#include "transmission.h"
-#include "utils.h"
-#include "variant.h"
 
 using std::string;
 
@@ -65,7 +55,7 @@ FFI_PLUGIN_EXPORT void init_session(char *config_dir, char *app_name) {
   tr_variantInitDict(&settings, 0);
   tr_sessionLoadSettings(&settings, configDir.c_str(), app_name);
 
-  session = tr_sessionInit(configDir.c_str(), true, &settings);
+  session = tr_sessionInit(configDir.c_str(), false, &settings);
 
   tr_ctor *ctor = tr_ctorNew(session);
   tr_sessionLoadTorrents(session, ctor);
@@ -101,4 +91,14 @@ FFI_PLUGIN_EXPORT void save_settings() {
   tr_variantInitDict(&settings, 0);
   tr_sessionSaveSettings(session, configDir.c_str(), &settings);
   tr_variantClear(&settings);
+}
+
+FFI_PLUGIN_EXPORT void reset_settings() {
+  tr_variant default_settings;
+
+  tr_variantInitDict(&default_settings, 0);
+  tr_sessionGetDefaultSettings(&default_settings);
+  tr_sessionSet(session, &default_settings);
+  tr_sessionSaveSettings(session, configDir.c_str(), &default_settings);
+  tr_variantClear(&default_settings);
 }

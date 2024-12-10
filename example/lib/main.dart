@@ -46,6 +46,10 @@ class _MyAppState extends State<MyApp> {
     tr.closeSession();
   }
 
+  void handleResetSettings() {
+    tr.resetSettings();
+  }
+
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(fontSize: 25);
@@ -78,6 +82,11 @@ class _MyAppState extends State<MyApp> {
                     onPressed: handleRequest,
                     color: Colors.blue,
                     child: const Text('Request')),
+                spacerSmall,
+                MaterialButton(
+                    onPressed: handleResetSettings,
+                    color: Colors.blue,
+                    child: const Text('Reset settings')),
                 spacerSmall,
                 MaterialButton(
                     onPressed: handleClose,

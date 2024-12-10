@@ -31,4 +31,8 @@ class Transmission {
     flutter_libtransmission.closeSession();
     _cleanConfigDir();
   }
+
+  void resetSettings() {
+    flutter_libtransmission.resetSettings();
+  }
 }
