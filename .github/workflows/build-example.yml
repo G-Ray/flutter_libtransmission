@@ -90,3 +90,29 @@ jobs:
         with:
           channel: stable
       - run: flutter build apk
+
+  ios:
+    runs-on: macos-14
+    env:
+      # Do not target simulator
+      TARGET_IOS_DEVICE: true
+    defaults:
+      run:
+        working-directory: ./example
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install dependencies
+        run: |
+          brew install ninja
+      - name: Set up vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: ${{ github.workspace }}/example/vcpkg
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter build ios --no-codesign
