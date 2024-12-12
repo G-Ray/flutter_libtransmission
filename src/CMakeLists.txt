@@ -60,13 +60,22 @@ if(LINUX)
                 "-DCMAKE_CXX_FLAGS=-fPIC"
         )
 elseif (APPLE)
+        message("CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}")
         string(REPLACE ";" "$<SEMICOLON>" CMAKE_OSX_ARCHITECTURES_ "${CMAKE_OSX_ARCHITECTURES}")
-        SET(CMAKE_ARGS "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}")
+        if(IOS)
+                # D_DARWIN_C_SOURCE has to be set to compile miniupnp
+                SET(CMAKE_ARGS 
+                        "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}"
+                        "-DCMAKE_C_FLAGS=-I${CMAKE_SOURCE_DIR}/../ios/Classes -D_DARWIN_C_SOURCE"
+                        "-DCMAKE_CXX_FLAGS=-I${CMAKE_SOURCE_DIR}/../ios/Classes -D_DARWIN_C_SOURCE")
+        else()
+                SET(CMAKE_ARGS "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}")
+        endif()
 elseif (ANDROID)
         SET(CMAKE_ARGS
                 "-DCMAKE_C_FLAGS=-fPIC"
                 "-DCMAKE_CXX_FLAGS=-fPIC"
-                "-DCMAKE_SYSTEM_NAME=${DCMAKE_SYSTEM_NAME}"
+                "-DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}"
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=${CMAKE_EXPORT_COMPILE_COMMANDS}"
                 "-DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}"
                 "-DCMAKE_MAKE_PROGRAM=${CMAKE_MAKE_PROGRAM}"
@@ -82,7 +91,7 @@ endif()
 ExternalProject_Add(transmission
         PREFIX ${TRANSMISSION_PREFIX}
         GIT_REPOSITORY https://github.com/G-Ray/transmission.git
-        GIT_TAG 305dc755fe6537f3325f14c9a981b52204688cb3 # on "4.0.x-pikatorrent"
+        GIT_TAG f8c2acb66b7edbc06fd3e05864be73edaf35c72d # on "4.0.x-pikatorrent"
         INSTALL_COMMAND ""
         CMAKE_ARGS
                 ${CMAKE_ARGS}
@@ -127,12 +136,25 @@ ExternalProject_Get_property(transmission SOURCE_DIR)
 include_directories("${SOURCE_DIR}/libtransmission")
 
 if(APPLE)
+        if(IOS)
+                set(APPLE_DEPENDENCIES
+                        ${CMAKE_SOURCE_DIR}/../ios/lib/libcrypto.a
+                        ${CMAKE_SOURCE_DIR}/../ios/lib/libssl.a
+                        ${CMAKE_SOURCE_DIR}/../ios/lib/libz.a
+                        ${CMAKE_SOURCE_DIR}/../ios/lib/libcurl.a
+                )
+        else()
+                set(APPLE_DEPENDENCIES
+                        ${CMAKE_SOURCE_DIR}/../macos/lib/libcrypto.a
+                        ${CMAKE_SOURCE_DIR}/../macos/lib/libssl.a
+                        ${CMAKE_SOURCE_DIR}/../macos/lib/libz.a
+                        ${CMAKE_SOURCE_DIR}/../macos/lib/libcurl.a
+                )
+        endif()
+
         # Use unified libs
         SET(DEPENDENCIES 
-                ${CMAKE_SOURCE_DIR}/../macos/lib/libcrypto.a
-                ${CMAKE_SOURCE_DIR}/../macos/lib/libssl.a
-                ${CMAKE_SOURCE_DIR}/../macos/lib/libz.a
-                ${CMAKE_SOURCE_DIR}/../macos/lib/libcurl.a
+                ${APPLE_DEPENDENCIES}
                 "-framework Foundation"
                 "-framework SystemConfiguration"
                 "-framework Security"

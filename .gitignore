@@ -31,4 +31,7 @@ build/
 macos/Classes/libtransmission
 macos/lib
 
+ios/Classes/libtransmission
+ios/lib
+
 linux/flutter/ephemeral/
