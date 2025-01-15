@@ -1,7 +1,7 @@
 name: flutter_libtransmission
-description: "A new Flutter project."
+description: "libtransmission ffi plugin"
 version: 0.0.1
-homepage:
+homepage: https://github.com/G-Ray/flutter_libtransmission
 
 environment:
   sdk: ^3.5.3

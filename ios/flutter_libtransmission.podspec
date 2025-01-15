@@ -48,7 +48,7 @@ A new Flutter FFI plugin project.
                           cp ${VCPKG_ROOT}/installed/arm64-ios/lib/libz.a lib/libz.a
                         fi
                         cd ../src
-                        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./ios.toolchain.cmake"
+                        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE="./ios.toolchain.cmake"
                         cmake --build build
                         mkdir -p ../ios/Classes/libtransmission
                         cp -r ./build/transmission-prefix/src/transmission/libtransmission/*.h ../ios/Classes/libtransmission/

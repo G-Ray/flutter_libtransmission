@@ -36,7 +36,7 @@ A new Flutter FFI plugin project.
                         lipo ${VCPKG_ROOT}/installed/arm64-osx/lib/libssl.a ${VCPKG_ROOT}/installed/x64-osx/lib/libssl.a -create -output lib/libssl.a
                         lipo ${VCPKG_ROOT}/installed/arm64-osx/lib/libz.a ${VCPKG_ROOT}/installed/x64-osx/lib/libz.a -create -output lib/libz.a
                         cd ../src
-                        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES='x86_64;arm64' -DCMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_OSX_ARCHITECTURES='x86_64;arm64' -DCMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
                         cmake --build build
                         mkdir -p ../macos/Classes/libtransmission
                         cp -r ./build/transmission-prefix/src/transmission/libtransmission/*.h ../macos/Classes/libtransmission/

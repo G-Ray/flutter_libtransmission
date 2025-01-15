@@ -95,6 +95,7 @@ ExternalProject_Add(transmission
         INSTALL_COMMAND ""
         CMAKE_ARGS
                 ${CMAKE_ARGS}
+                "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
                 "-DVCPKG_INSTALLED_DIR=${VCPKG_INSTALLED_DIR}"
                 "-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${VCPKG_CHAINLOAD_TOOLCHAIN_FILE}"
                 "-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}"
