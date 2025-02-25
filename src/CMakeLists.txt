@@ -25,28 +25,26 @@ if(LINUX OR ANDROID OR APPLE)
         SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/libtransmission.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/libdht.a
-                ${TRANSMISSION_BUILD_DIR}/third-party/jsonsl/libjsonsl.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/libb64.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/libdeflate.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/libevent.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libpsl.bld/pfx/lib/libpsl.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libutp.bld/libutp.a
-                ${TRANSMISSION_BUILD_DIR}/third-party/miniupnpc.bld/pfx/lib/libminiupnpc.a
+                ${TRANSMISSION_BUILD_DIR}/third-party/miniupnp/miniupnpc.bld/pfx/lib/libminiupnpc.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/wildmat/libwildmat.a
         )
 elseif(WIN32)
         SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/$<CONFIG>/transmission.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/dht.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/jsonsl/$<CONFIG>/jsonsl.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/$<CONFIG>/b64.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/deflatestatic.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/event.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libnatpmp.bld/pfx/lib/natpmp.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libpsl.bld/pfx/lib/psl.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libutp.bld/$<CONFIG>/utp.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/miniupnpc.bld/pfx/lib/miniupnpc.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/miniupnp/miniupnpc.bld/pfx/lib/miniupnpc.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/wildmat/$<CONFIG>/wildmat.lib
                 Ws2_32
                 Crypt32
@@ -90,8 +88,8 @@ endif()
 
 ExternalProject_Add(transmission
         PREFIX ${TRANSMISSION_PREFIX}
-        GIT_REPOSITORY https://github.com/G-Ray/transmission.git
-        GIT_TAG a54b0ae353d5e60395a354ef14e1784ec673d70f # on "4.0.x-pikatorrent"
+        GIT_REPOSITORY https://github.com/transmission/transmission.git
+        GIT_TAG 4.1.0-beta.1
         INSTALL_COMMAND ""
         CMAKE_ARGS
                 ${CMAKE_ARGS}
@@ -134,7 +132,7 @@ add_library(flutter_libtransmission SHARED
 add_dependencies(flutter_libtransmission transmission)
 
 ExternalProject_Get_property(transmission SOURCE_DIR)
-include_directories("${SOURCE_DIR}/libtransmission")
+include_directories("${SOURCE_DIR}/")
 
 if(APPLE)
         if(IOS)

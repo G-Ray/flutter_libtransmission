@@ -3,10 +3,10 @@
 #include <future>
 #include <string>
 
-#include "rpcimpl.h"
-#include "transmission.h"
-#include "utils.h"
-#include "variant.h"
+#include "libtransmission/rpcimpl.h"
+#include "libtransmission/transmission.h"
+#include "libtransmission/utils.h"
+#include "libtransmission/variant.h"
 
 #if _WIN32
 #define FFI_PLUGIN_EXPORT extern "C" __declspec(dllexport)
