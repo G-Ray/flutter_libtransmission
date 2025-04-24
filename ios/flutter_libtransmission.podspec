@@ -48,22 +48,23 @@ A new Flutter FFI plugin project.
                           cp ${VCPKG_ROOT}/installed/arm64-ios/lib/libz.a lib/libz.a
                         fi
                         cd ../src
-                        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE="./ios.toolchain.cmake"
-                        cmake --build build
+                        mkdir -p ../ios/build
                         mkdir -p ../ios/Classes/libtransmission
-                        cp -r ./build/transmission-prefix/src/transmission/libtransmission/*.h ../ios/Classes/libtransmission/
-                        cp ./build/transmission-prefix/src/transmission-build/libtransmission/libtransmission.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/dht.bld/pfx/lib/libdht.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/jsonsl/libjsonsl.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libpsl.bld/pfx/lib/libpsl.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libutp.bld/libutp.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/miniupnpc.bld/pfx/lib/libminiupnpc.a ../ios/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../ios/lib/
+                        cmake -B ../ios/build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE="$(pwd)/ios.toolchain.cmake"
+                        cmake --build ../ios/build
+                        cp -r ../ios/build/transmission-prefix/src/transmission/libtransmission/*.h ../ios/Classes/libtransmission/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/libtransmission/libtransmission.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/dht.bld/pfx/lib/libdht.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/jsonsl/libjsonsl.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libpsl.bld/pfx/lib/libpsl.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libutp.bld/libutp.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/miniupnpc.bld/pfx/lib/libminiupnpc.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../ios/lib/
                    CMD
 
   s.vendored_libraries = 'lib/libtransmission.a', 'lib/libdht.a', 'lib/libjsonsl.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a'

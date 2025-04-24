@@ -36,22 +36,23 @@ A new Flutter FFI plugin project.
                         lipo ${VCPKG_ROOT}/installed/arm64-osx/lib/libssl.a ${VCPKG_ROOT}/installed/x64-osx/lib/libssl.a -create -output lib/libssl.a
                         lipo ${VCPKG_ROOT}/installed/arm64-osx/lib/libz.a ${VCPKG_ROOT}/installed/x64-osx/lib/libz.a -create -output lib/libz.a
                         cd ../src
-                        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_OSX_ARCHITECTURES='x86_64;arm64' -DCMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-                        cmake --build build
+                        mkdir -p ../macos/build
                         mkdir -p ../macos/Classes/libtransmission
-                        cp -r ./build/transmission-prefix/src/transmission/libtransmission/*.h ../macos/Classes/libtransmission/
-                        cp ./build/transmission-prefix/src/transmission-build/libtransmission/libtransmission.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/dht.bld/pfx/lib/libdht.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/jsonsl/libjsonsl.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libpsl.bld/pfx/lib/libpsl.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/libutp.bld/libutp.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/miniupnpc.bld/pfx/lib/libminiupnpc.a ../macos/lib/
-                        cp ./build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../macos/lib/
+                        cmake -B ../macos/build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_OSX_ARCHITECTURES='x86_64;arm64' -DCMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                        cmake --build ../macos/build
+                        cp -r ../macos/build/transmission-prefix/src/transmission/libtransmission/*.h ../macos/Classes/libtransmission/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/libtransmission/libtransmission.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/dht.bld/pfx/lib/libdht.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/jsonsl/libjsonsl.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libpsl.bld/pfx/lib/libpsl.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libutp.bld/libutp.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/miniupnpc.bld/pfx/lib/libminiupnpc.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../macos/lib/
                    CMD
 
   s.vendored_libraries = 'lib/libtransmission.a', 'lib/libdht.a', 'lib/libjsonsl.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a',
