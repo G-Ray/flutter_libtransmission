@@ -1,9 +1,9 @@
 # flutter_libtransmission
 
-A new Flutter project.
+Binding to use libtransmission in Dart/Flutter.
 
 ## Install
 
-vcpkg is required to compile required curl & openssl libraries for Android & Windows platforms.
+vcpkg is required to compile curl & openssl libraries for Windows, MacOS, Android & iOS platforms.
 
 see example in `./example`.
