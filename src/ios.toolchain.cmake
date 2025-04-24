@@ -13,6 +13,4 @@ endif()
 
 set(CMAKE_SYSTEM_NAME iOS)
 
-# Support only arm64 devices
-set(CMAKE_OSX_DEPLOYMENT_TARGET 10.0)
 include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
