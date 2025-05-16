@@ -73,8 +73,8 @@ elseif (APPLE)
         endif()
 elseif (ANDROID)
         SET(CMAKE_ARGS
-                "-DCMAKE_C_FLAGS=-fPIC -s"
-                "-DCMAKE_CXX_FLAGS=-fPIC -s"
+                "-DCMAKE_C_FLAGS=-fPIC"
+                "-DCMAKE_CXX_FLAGS=-fPIC"
                 "-DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}"
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=${CMAKE_EXPORT_COMPILE_COMMANDS}"
                 "-DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}"
@@ -95,7 +95,7 @@ ExternalProject_Add(transmission
         INSTALL_COMMAND ""
         CMAKE_ARGS
                 ${CMAKE_ARGS}
-                "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+                "-DCMAKE_BUILD_TYPE=Release"
                 "-DVCPKG_INSTALLED_DIR=${VCPKG_INSTALLED_DIR}"
                 "-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${VCPKG_CHAINLOAD_TOOLCHAIN_FILE}"
                 "-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}"
