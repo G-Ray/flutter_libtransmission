@@ -73,8 +73,8 @@ elseif (APPLE)
         endif()
 elseif (ANDROID)
         SET(CMAKE_ARGS
-                "-DCMAKE_C_FLAGS=-fPIC"
-                "-DCMAKE_CXX_FLAGS=-fPIC"
+                "-DCMAKE_C_FLAGS=-fPIC -s"
+                "-DCMAKE_CXX_FLAGS=-fPIC -s"
                 "-DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}"
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=${CMAKE_EXPORT_COMPILE_COMMANDS}"
                 "-DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}"
