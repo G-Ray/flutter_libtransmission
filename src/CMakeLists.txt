@@ -185,5 +185,5 @@ target_compile_definitions(flutter_libtransmission PUBLIC DART_SHARED_LIB)
 
 if (ANDROID)
   # Support Android 15 16k page size.
-  target_link_options(flutter_libtransmission PRIVATE "-Wl,-z,max-page-size=16384,--build-id=none")
+  target_link_options(flutter_libtransmission PRIVATE "-Wl,-z,max-page-size=16384,--build-id=none,--hash-style=gnu")
 endif()
