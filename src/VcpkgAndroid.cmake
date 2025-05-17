@@ -18,6 +18,11 @@
 # Note: VCPKG_TARGET_ANDROID is not an official vcpkg variable.
 # it is introduced for the need of this script
 
+message("ANDROID_NDK_HOME ${ANDROID_NDK_HOME}")
+message("ANDROID_NDK ${ANDROID_NDK}")
+message("ANDROID_NDK_ROOT ${ANDROID_NDK_ROOT}")
+
+
 if (VCPKG_TARGET_ANDROID)
     if (DEFINED ENV{VCPKG_MANIFEST_DIR})
         set(VCPKG_MANIFEST_DIR $ENV{VCPKG_MANIFEST_DIR})
