@@ -10,7 +10,7 @@
 # endif()
 #
 # This script will:
-# 1 & 2. check the presence of needed env variables: ANDROID_NDK_HOME and VCPKG_ROOT
+# 1 & 2. check the presence of needed env variables: ANDROID_NDK and VCPKG_ROOT
 # 3. set VCPKG_TARGET_TRIPLET according to ANDROID_ABI
 # 4. Combine vcpkg and Android toolchains by setting CMAKE_TOOLCHAIN_FILE
 #    and VCPKG_CHAINLOAD_TOOLCHAIN_FILE
@@ -24,16 +24,10 @@ if (VCPKG_TARGET_ANDROID)
     endif()
 
     #
-    # 1. Check the presence of environment variable ANDROID_NDK_HOME
+    # 1. Check the presence of environment variable ANDROID_NDK
     #
-    if (NOT DEFINED ENV{ANDROID_NDK_HOME})
-        message(FATAL_ERROR "
-        Please set an environment variable ANDROID_NDK_HOME
-        For example:
-        export ANDROID_NDK_HOME=/home/your-account/Android/Sdk/ndk-bundle
-        Or:
-        export ANDROID_NDK_HOME=/home/your-account/Android/android-ndk-r21b
-        ")
+    if (NOT DEFINED ANDROID_NDK)
+        message(FATAL_ERROR "ANDROID_NDK is not defined")
     endif()
 
     #
@@ -90,12 +84,12 @@ if (VCPKG_TARGET_ANDROID)
     # vcpkg and android both provide dedicated toolchains:
     #
     # vcpkg_toolchain_file=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
-    # android_toolchain_file=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake
+    # android_toolchain_file=$ANDROID_NDK/build/cmake/android.toolchain.cmake
     #
     # When using vcpkg, the vcpkg toolchain shall be specified first.
     # However, vcpkg provides a way to preload and additional toolchain,
     # with the VCPKG_CHAINLOAD_TOOLCHAIN_FILE option.
-    set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE $ENV{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake)
+    set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE ${ANDROID_NDK}/build/cmake/android.toolchain.cmake)
     set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
     message("vcpkg_android.cmake: CMAKE_TOOLCHAIN_FILE was set to ${CMAKE_TOOLCHAIN_FILE}")
     message("vcpkg_android.cmake: VCPKG_CHAINLOAD_TOOLCHAIN_FILE was set to ${VCPKG_CHAINLOAD_TOOLCHAIN_FILE}")
