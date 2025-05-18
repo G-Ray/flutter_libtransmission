@@ -65,7 +65,7 @@ android {
             cmake {
                 cFlags "-ffile-prefix-map=${rootDir}=."
                 cppFlags "-ffile-prefix-map=${rootDir}=."
-                arguments "-DVCPKG_TARGET_ANDROID=ON -DCMAKE_SHARED_LINKER_FLAGS=-Wl,--build-id=none,--hash-style=gnu"
+                arguments "-DVCPKG_TARGET_ANDROID=ON"
             }
         }
     }

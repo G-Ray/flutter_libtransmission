@@ -73,8 +73,8 @@ elseif (APPLE)
         endif()
 elseif (ANDROID)
         SET(CMAKE_ARGS
-                "-DCMAKE_C_FLAGS=-fPIC"
-                "-DCMAKE_CXX_FLAGS=-fPIC"
+                "-DCMAKE_C_FLAGS=-fPIC -ffile-prefix-map=${rootDir}=."
+                "-DCMAKE_CXX_FLAGS=-fPIC -ffile-prefix-map=${rootDir}=."
                 "-DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}"
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=${CMAKE_EXPORT_COMPILE_COMMANDS}"
                 "-DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}"
@@ -183,5 +183,5 @@ target_compile_definitions(flutter_libtransmission PUBLIC DART_SHARED_LIB)
 
 if (ANDROID)
   # Support Android 15 16k page size.
-  target_link_options(flutter_libtransmission PRIVATE "-Wl,-z,max-page-size=16384")
+  target_link_options(flutter_libtransmission PRIVATE "-Wl,-z,max-page-size=16384,--build-id=none,--hash-style=gnu")
 endif()
