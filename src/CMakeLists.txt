@@ -14,15 +14,15 @@ set(CMAKE_CXX_STANDARD 17)
 # On Windows, build will probably fail due to https://gitlab.kitware.com/cmake/cmake/-/issues/25936
 # Set a custom TRANSMISSION_PREFIX env var to avoid this
 if (DEFINED ENV{TRANSMISSION_PREFIX})
-        SET(TRANSMISSION_PREFIX $ENV{TRANSMISSION_PREFIX})
+    SET(TRANSMISSION_PREFIX $ENV{TRANSMISSION_PREFIX})
 else()
-        SET(TRANSMISSION_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/transmission-prefix")
+    SET(TRANSMISSION_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/transmission-prefix")
 endif()
 
 SET(TRANSMISSION_BUILD_DIR "${TRANSMISSION_PREFIX}/src/transmission-build")
 
 if(LINUX OR ANDROID OR APPLE)
-        SET(LIBS
+    SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/libtransmission.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/libdht.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/jsonsl/libjsonsl.a
@@ -36,7 +36,7 @@ if(LINUX OR ANDROID OR APPLE)
                 ${TRANSMISSION_BUILD_DIR}/third-party/wildmat/libwildmat.a
         )
 elseif(WIN32)
-        SET(LIBS
+    SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/$<CONFIG>/transmission.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/dht.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/jsonsl/$<CONFIG>/jsonsl.lib
@@ -55,26 +55,26 @@ elseif(WIN32)
 endif()
 
 if(LINUX)
-        SET(CMAKE_ARGS
+    SET(CMAKE_ARGS
                 "-DCMAKE_C_FLAGS=-fPIC"
                 "-DCMAKE_CXX_FLAGS=-fPIC"
         )
 elseif (APPLE)
-        message("CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}")
-        string(REPLACE ";" "$<SEMICOLON>" CMAKE_OSX_ARCHITECTURES_ "${CMAKE_OSX_ARCHITECTURES}")
-        if(IOS)
-                # D_DARWIN_C_SOURCE has to be set to compile miniupnp
-                SET(CMAKE_ARGS 
+    message("CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}")
+    string(REPLACE ";" "$<SEMICOLON>" CMAKE_OSX_ARCHITECTURES_ "${CMAKE_OSX_ARCHITECTURES}")
+    if(IOS)
+        # D_DARWIN_C_SOURCE has to be set to compile miniupnp
+        SET(CMAKE_ARGS
                         "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}"
                         "-DCMAKE_C_FLAGS=-I${CMAKE_SOURCE_DIR}/../ios/Classes -D_DARWIN_C_SOURCE"
                         "-DCMAKE_CXX_FLAGS=-I${CMAKE_SOURCE_DIR}/../ios/Classes -D_DARWIN_C_SOURCE")
-        else()
-                SET(CMAKE_ARGS "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}")
-        endif()
+    else()
+        SET(CMAKE_ARGS "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}")
+    endif()
 elseif (ANDROID)
-        SET(CMAKE_ARGS
-                "-DCMAKE_C_FLAGS=-fPIC"
-                "-DCMAKE_CXX_FLAGS=-fPIC"
+    SET(CMAKE_ARGS
+                "-DCMAKE_C_FLAGS=-fPIC -ffile-prefix-map=${TRANSMISSION_PREFIX}=."
+                "-DCMAKE_CXX_FLAGS=-fPIC -ffile-prefix-map=${TRANSMISSION_PREFIX}=."
                 "-DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}"
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=${CMAKE_EXPORT_COMPILE_COMMANDS}"
                 "-DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}"
@@ -137,31 +137,31 @@ ExternalProject_Get_property(transmission SOURCE_DIR)
 include_directories("${SOURCE_DIR}/libtransmission")
 
 if(APPLE)
-        if(IOS)
-                set(APPLE_DEPENDENCIES
+    if(IOS)
+        set(APPLE_DEPENDENCIES
                         ${CMAKE_SOURCE_DIR}/../ios/lib/libcrypto.a
                         ${CMAKE_SOURCE_DIR}/../ios/lib/libssl.a
                         ${CMAKE_SOURCE_DIR}/../ios/lib/libz.a
                         ${CMAKE_SOURCE_DIR}/../ios/lib/libcurl.a
                 )
-        else()
-                set(APPLE_DEPENDENCIES
+    else()
+        set(APPLE_DEPENDENCIES
                         ${CMAKE_SOURCE_DIR}/../macos/lib/libcrypto.a
                         ${CMAKE_SOURCE_DIR}/../macos/lib/libssl.a
                         ${CMAKE_SOURCE_DIR}/../macos/lib/libz.a
                         ${CMAKE_SOURCE_DIR}/../macos/lib/libcurl.a
                 )
-        endif()
+    endif()
 
-        # Use unified libs
-        SET(DEPENDENCIES 
+    # Use unified libs
+    SET(DEPENDENCIES
                 ${APPLE_DEPENDENCIES}
                 "-framework Foundation"
                 "-framework SystemConfiguration"
                 "-framework Security"
         )
 else()
-        SET(DEPENDENCIES 
+    SET(DEPENDENCIES
                 OpenSSL::Crypto
                 OpenSSL::SSL
                 CURL::libcurl
@@ -182,6 +182,6 @@ set_target_properties(flutter_libtransmission PROPERTIES
 target_compile_definitions(flutter_libtransmission PUBLIC DART_SHARED_LIB)
 
 if (ANDROID)
-  # Support Android 15 16k page size.
-  target_link_options(flutter_libtransmission PRIVATE "-Wl,-z,max-page-size=16384")
+    # Support Android 15 16k page size.
+    target_link_options(flutter_libtransmission PRIVATE "-Wl,-z,max-page-size=16384,--build-id=none,--hash-style=gnu")
 endif()
