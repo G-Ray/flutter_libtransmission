@@ -71,6 +71,7 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       VCPKG_MANIFEST_DIR: ${{ github.workspace }}/example
+      SOURCE_DATE_EPOCH: 0
     defaults:
       run:
         working-directory: ./example
