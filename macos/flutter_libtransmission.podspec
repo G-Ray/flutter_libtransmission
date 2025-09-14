@@ -25,7 +25,7 @@ A new Flutter FFI plugin project.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.swift_version = '5.0'
 
-  s.compiler_flags = '-std=c++17' 
+  s.compiler_flags = '-std=c++17'
 
   s.prepare_command = <<-CMD
                         ${VCPKG_ROOT}/vcpkg install --triplet=x64-osx openssl curl
@@ -46,12 +46,12 @@ A new Flutter FFI plugin project.
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/jsonsl/libjsonsl.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/lib/libevent_core.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/lib/libevent_core.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libpsl.bld/pfx/lib/libpsl.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libutp.bld/libutp.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/miniupnpc.bld/pfx/lib/libminiupnpc.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/miniupnp/miniupnpc.bld/pfx/lib/libminiupnpc.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../macos/lib/
                    CMD
 

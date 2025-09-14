@@ -23,7 +23,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - run: flutter build windows
+      - run: flutter build windows -v
   linux:
     runs-on: ubuntu-24.04
     defaults:
