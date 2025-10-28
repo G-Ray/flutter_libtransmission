@@ -22,10 +22,10 @@ A new Flutter FFI plugin project.
   s.dependency 'FlutterMacOS'
 
   s.platform = :osx, '10.11'
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'HEADER_SEARCH_PATHS' => '${PODS_TARGET_SRCROOT}/Classes' }
   s.swift_version = '5.0'
 
-  s.compiler_flags = '-std=c++17' 
+  s.compiler_flags = '-std=c++17'
 
   s.prepare_command = <<-CMD
                         ${VCPKG_ROOT}/vcpkg install --triplet=x64-osx openssl curl
@@ -38,24 +38,23 @@ A new Flutter FFI plugin project.
                         cd ../src
                         mkdir -p ../macos/build
                         mkdir -p ../macos/Classes/libtransmission
-                        cmake -B ../macos/build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_OSX_ARCHITECTURES='x86_64;arm64' -DCMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                        cmake -B ../macos/build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_OSX_ARCHITECTURES='x86_64;arm64' -DCMAKE_TOOLCHAIN_FILE="$(pwd)/macos.toolchain.cmake"
                         cmake --build ../macos/build
-                        cp -r ../macos/build/transmission-prefix/src/transmission/libtransmission/*.h ../macos/Classes/libtransmission/
+                        cp -r ../macos/build/transmission-prefix/src/transmission/libtransmission/*.h ../macos/Classes/libtransmission
                         cp ../macos/build/transmission-prefix/src/transmission-build/libtransmission/libtransmission.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/dht.bld/pfx/lib/libdht.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/jsonsl/libjsonsl.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/lib/libevent_core.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/lib/libevent_extra.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libpsl.bld/pfx/lib/libpsl.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libutp.bld/libutp.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/miniupnpc.bld/pfx/lib/libminiupnpc.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/miniupnp/miniupnpc.bld/pfx/lib/libminiupnpc.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../macos/lib/
                    CMD
 
-  s.vendored_libraries = 'lib/libtransmission.a', 'lib/libdht.a', 'lib/libjsonsl.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a',
+  s.vendored_libraries = 'lib/libtransmission.a', 'lib/libdht.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent_core.a', 'lib/libevent_extra.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a',
 
   s.frameworks    = 'SystemConfiguration', 'Foundation', 'Security'
 end
