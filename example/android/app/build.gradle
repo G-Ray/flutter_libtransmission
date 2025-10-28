@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "com.gray.libtransmission.flutter_libtransmission_example"
     compileSdk = flutter.compileSdkVersion
-    project.logger.error("flutter.ndkVersion: ${flutter.ndkVersion}")
     ndkVersion = "27.0.12077973"
 
     compileOptions {
