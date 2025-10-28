@@ -44,9 +44,6 @@ jobs:
 
   macos:
     runs-on: macos-14
-    env:
-      # Should be same as defined in /app/macos/Runner.xcodeproj
-      MACOSX_DEPLOYMENT_TARGET: 10.14
     defaults:
       run:
         working-directory: ./example
@@ -101,7 +98,6 @@ jobs:
     env:
       # Do not target simulator
       TARGET_IOS_DEVICE: true
-      IPHONEOS_DEPLOYMENT_TARGET: 12
     defaults:
       run:
         working-directory: ./example

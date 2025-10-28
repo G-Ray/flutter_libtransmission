@@ -12,5 +12,7 @@ else()
 endif()
 
 set(CMAKE_SYSTEM_NAME iOS)
+set(CMAKE_MACOSX_BUNDLE false)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0")
 
 include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
