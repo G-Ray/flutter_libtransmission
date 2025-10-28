@@ -11,7 +11,7 @@ buildscript {
 
     dependencies {
         // The Android Gradle Plugin knows how to build native code with the NDK.
-        classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("com.android.tools.build:gradle:8.7.3")
     }
 }
 
@@ -37,7 +37,8 @@ android {
     // declared in /android/app/build.gradle file of the Flutter project.
     // Replace it with a version number if this plugin requires a specific NDK version.
     // (e.g. ndkVersion "23.1.7779620")
-    ndkVersion = android.ndkVersion
+    project.logger.error("android.ndkVersion: ${android.ndkVersion}")
+    ndkVersion = android.ndkVersion // "26.3.11579264"
 
     // Invoke the shared CMake build with the Android Gradle Plugin.
     externalNativeBuild {
