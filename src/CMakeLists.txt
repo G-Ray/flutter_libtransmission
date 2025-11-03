@@ -86,6 +86,7 @@ elseif (ANDROID)
                 "-DCMAKE_ANDROID_ARCH_ABI=${CMAKE_ANDROID_ARCH_ABI}"
                 "-DANDROID_NDK=${ANDROID_NDK}"
                 "-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}"
+                "-D_GNU_SOURCE=1"
         )
 endif()
 
