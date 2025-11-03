@@ -116,11 +116,15 @@ ExternalProject_Add(transmission
                 "-DUSE_SYSTEM_EVENT2=OFF"
                 "-DUSE_SYSTEM_DEFLATE=OFF"
                 "-DUSE_SYSTEM_DHT=OFF"
+                "-DUSE_SYSTEM_FAST_FLOAT=OFF"
+                "-DUSE_SYSTEM_FMT=OFF"
                 "-DUSE_SYSTEM_MINIUPNPC=OFF"
                 "-DUSE_SYSTEM_NATPMP=OFF"
                 "-DUSE_SYSTEM_UTP=OFF"
                 "-DUSE_SYSTEM_B64=OFF"
                 "-DUSE_SYSTEM_PSL=OFF"
+                "-DUSE_SYSTEM_RAPIDJSON=OFF"
+                "-DUSE_SYSTEM_UTF8CPP=OFF"
                 "-DRUN_CLANG_TIDY=OFF"
         BUILD_BYPRODUCTS
         ${LIBS}
