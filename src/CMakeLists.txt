@@ -27,8 +27,8 @@ if(LINUX OR ANDROID OR APPLE)
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/libdht.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/libb64.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/libdeflate.a
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/libevent_core.a
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/libevent_extra.a
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/libevent_core.a
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/libevent_extra.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libpsl.bld/pfx/lib/libpsl.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libutp.bld/libutp.a
@@ -41,8 +41,8 @@ elseif(WIN32)
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/dht.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/$<CONFIG>/b64.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/deflatestatic.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/$<CONFIG>/event_core.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/$<CONFIG>/event_extra.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/$<CONFIG>/event_core.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/$<CONFIG>/event_extra.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libnatpmp.bld/pfx/lib/natpmp.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libpsl.bld/pfx/lib/psl.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libutp.bld/$<CONFIG>/utp.lib
