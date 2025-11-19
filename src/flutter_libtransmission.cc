@@ -22,6 +22,7 @@ FFI_PLUGIN_EXPORT void init_session(char *config_dir, char *app_name) {
   configDir = config_dir;
 
   auto settings = tr_sessionLoadSettings(nullptr, configDir.c_str(), app_name);
+  tr_variantDictAddBool(&settings, TR_KEY_rename_partial_files, false);
 
   session = tr_sessionInit(configDir.c_str(), false, settings);
 
@@ -59,7 +60,8 @@ FFI_PLUGIN_EXPORT void save_settings() {
 }
 
 FFI_PLUGIN_EXPORT void reset_settings() {
-  auto const default_settings = tr_sessionGetDefaultSettings();
+  auto default_settings = tr_sessionGetDefaultSettings();
+  tr_variantDictAddBool(&default_settings, TR_KEY_rename_partial_files, false);
   tr_sessionSet(session, default_settings);
   tr_sessionSaveSettings(session, configDir.c_str(), default_settings);
 }

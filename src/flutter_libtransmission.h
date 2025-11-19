@@ -7,6 +7,7 @@
 #include "libtransmission/transmission.h"
 #include "libtransmission/utils.h"
 #include "libtransmission/variant.h"
+#include "libtransmission/quark.h"
 
 #if _WIN32
 #define FFI_PLUGIN_EXPORT extern "C" __declspec(dllexport)
