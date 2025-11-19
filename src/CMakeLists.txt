@@ -24,6 +24,7 @@ SET(TRANSMISSION_BUILD_DIR "${TRANSMISSION_PREFIX}/src/transmission-build")
 if(LINUX OR ANDROID OR APPLE)
     SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/libtransmission.a
+                ${TRANSMISSION_BUILD_DIR}/third-party/crc32c.bld/pfx/lib/libcrc32c.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/libdht.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/libb64.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/libdeflate.a
@@ -38,6 +39,7 @@ if(LINUX OR ANDROID OR APPLE)
 elseif(WIN32)
     SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/$<CONFIG>/transmission.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/crc32c.bld/pfx/lib/libcrc32c.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/dht.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/$<CONFIG>/b64.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/deflatestatic.lib
@@ -117,15 +119,15 @@ ExternalProject_Add(transmission
                 "-DUSE_SYSTEM_EVENT2=OFF"
                 "-DUSE_SYSTEM_DEFLATE=OFF"
                 "-DUSE_SYSTEM_DHT=OFF"
-                "-DUSE_SYSTEM_FAST_FLOAT=OFF"
-                "-DUSE_SYSTEM_FMT=OFF"
+                # "-DUSE_SYSTEM_FAST_FLOAT=OFF"
+                # "-DUSE_SYSTEM_FMT=OFF"
                 "-DUSE_SYSTEM_MINIUPNPC=OFF"
                 "-DUSE_SYSTEM_NATPMP=OFF"
                 "-DUSE_SYSTEM_UTP=OFF"
                 "-DUSE_SYSTEM_B64=OFF"
                 "-DUSE_SYSTEM_PSL=OFF"
-                "-DUSE_SYSTEM_RAPIDJSON=OFF"
-                "-DUSE_SYSTEM_UTF8CPP=OFF"
+                # "-DUSE_SYSTEM_RAPIDJSON=OFF"
+                # "-DUSE_SYSTEM_UTF8CPP=OFF"
                 "-DRUN_CLANG_TIDY=OFF"
         BUILD_BYPRODUCTS
         ${LIBS}
