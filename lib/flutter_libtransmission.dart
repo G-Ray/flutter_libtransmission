@@ -12,8 +12,8 @@ const String _libName = 'flutter_libtransmission';
 /// For very short-lived functions, it is fine to call them on the main isolate.
 /// They will block the Dart execution while running the native function, so
 /// only do this for native functions which are guaranteed to be short-lived.
-void initSession(String configDir, String appName) => _bindings.init_session(
-    configDir.toNativeUtf8().cast<Char>(), appName.toNativeUtf8().cast<Char>());
+void initSession(String configDir) =>
+    _bindings.init_session(configDir.toNativeUtf8().cast<Char>());
 
 void closeSession() => _bindings.close_session();
 
@@ -121,7 +121,8 @@ Future<SendPort> _helperIsolateSendPort = () async {
           final result =
               _bindings.request(data.json.toNativeUtf8().cast<Char>());
           String str = result.cast<Utf8>().toDartString();
-          final _TransmissionRequestResponse response = _TransmissionRequestResponse(data.id, str);
+          final _TransmissionRequestResponse response =
+              _TransmissionRequestResponse(data.id, str);
           sendPort.send(response);
           return;
         }

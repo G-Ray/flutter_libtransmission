@@ -30,20 +30,17 @@ class FlutterLibtransmissionBindings {
   /// Initialize a transmission session given a config dir and an app name.
   void init_session(
     ffi.Pointer<ffi.Char> config_dir,
-    ffi.Pointer<ffi.Char> app_name,
   ) {
     return _init_session(
       config_dir,
-      app_name,
     );
   }
 
-  late final _init_sessionPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>>('init_session');
-  late final _init_session = _init_sessionPtr.asFunction<
-      void Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>();
+  late final _init_sessionPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>(
+          'init_session');
+  late final _init_session =
+      _init_sessionPtr.asFunction<void Function(ffi.Pointer<ffi.Char>)>();
 
   /// Close transmission session.
   void close_session() {

@@ -1,7 +1,17 @@
 #include "flutter_libtransmission.h"
 
-using std::string;
+#include <array>
+#include <cstring>
+#include <future>
+#include <string>
 
+#include "libtransmission/rpcimpl.h"
+#include "libtransmission/transmission.h"
+#include "libtransmission/utils.h"
+#include "libtransmission/variant.h"
+#include "libtransmission/quark.h"
+
+using std::string;
 
 typedef struct {
   tr_variant request;
@@ -18,10 +28,10 @@ static void execute_request(callback_struct &cs) {
   });
 }
 
-FFI_PLUGIN_EXPORT void init_session(char *config_dir, char *app_name) {
+FFI_PLUGIN_EXPORT void init_session(char *config_dir) {
   configDir = config_dir;
 
-  auto settings = tr_sessionLoadSettings(nullptr, configDir.c_str(), app_name);
+  auto settings = tr_sessionLoadSettings(configDir);
   tr_variantDictAddBool(&settings, TR_KEY_rename_partial_files, false);
 
   session = tr_sessionInit(configDir.c_str(), false, settings);
