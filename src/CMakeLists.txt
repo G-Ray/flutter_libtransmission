@@ -39,12 +39,12 @@ if(LINUX OR ANDROID OR APPLE)
 elseif(WIN32)
     SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/$<CONFIG>/transmission.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/crc32c.bld/pfx/lib/libcrc32c.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/crc32c.bld/pfx/lib/crc32c.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/dht.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/$<CONFIG>/b64.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/deflatestatic.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/$<CONFIG>/event_core.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/$<CONFIG>/event_extra.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/event_core.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/event_extra.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libnatpmp.bld/pfx/lib/natpmp.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libpsl.bld/pfx/lib/psl.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libutp.bld/$<CONFIG>/utp.lib
