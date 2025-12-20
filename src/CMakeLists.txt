@@ -24,11 +24,11 @@ SET(TRANSMISSION_BUILD_DIR "${TRANSMISSION_PREFIX}/src/transmission-build")
 if(LINUX OR ANDROID OR APPLE)
     SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/libtransmission.a
+                ${TRANSMISSION_BUILD_DIR}/third-party/crc32c.bld/pfx/lib/libcrc32c.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/libdht.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/libb64.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/libdeflate.a
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/libevent_core.a
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/libevent_extra.a
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/libevent.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libpsl.bld/pfx/lib/libpsl.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libutp.bld/libutp.a
@@ -38,11 +38,11 @@ if(LINUX OR ANDROID OR APPLE)
 elseif(WIN32)
     SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/$<CONFIG>/transmission.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/crc32c.bld/pfx/lib/crc32c.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/dht.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/$<CONFIG>/b64.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/deflatestatic.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/$<CONFIG>/event_core.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/$<CONFIG>/event_extra.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/event.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libnatpmp.bld/pfx/lib/natpmp.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libpsl.bld/pfx/lib/psl.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libutp.bld/$<CONFIG>/utp.lib
@@ -93,7 +93,7 @@ endif()
 ExternalProject_Add(transmission
         PREFIX ${TRANSMISSION_PREFIX}
         GIT_REPOSITORY https://github.com/G-Ray/transmission.git
-        GIT_TAG e6e1c5ffc43ec0247e240bd8a23a57261c1de975 # post-d6e78d1-pikatorrent
+        GIT_TAG 62a9286873c590b9c44b28eb4634efae9e27a373 # streaming
         INSTALL_COMMAND ""
         CMAKE_ARGS
                 ${CMAKE_ARGS}
@@ -117,15 +117,15 @@ ExternalProject_Add(transmission
                 "-DUSE_SYSTEM_EVENT2=OFF"
                 "-DUSE_SYSTEM_DEFLATE=OFF"
                 "-DUSE_SYSTEM_DHT=OFF"
-                "-DUSE_SYSTEM_FAST_FLOAT=OFF"
-                "-DUSE_SYSTEM_FMT=OFF"
+                # "-DUSE_SYSTEM_FAST_FLOAT=OFF"
+                # "-DUSE_SYSTEM_FMT=OFF"
                 "-DUSE_SYSTEM_MINIUPNPC=OFF"
                 "-DUSE_SYSTEM_NATPMP=OFF"
                 "-DUSE_SYSTEM_UTP=OFF"
                 "-DUSE_SYSTEM_B64=OFF"
                 "-DUSE_SYSTEM_PSL=OFF"
-                "-DUSE_SYSTEM_RAPIDJSON=OFF"
-                "-DUSE_SYSTEM_UTF8CPP=OFF"
+                # "-DUSE_SYSTEM_RAPIDJSON=OFF"
+                # "-DUSE_SYSTEM_UTF8CPP=OFF"
                 "-DRUN_CLANG_TIDY=OFF"
         BUILD_BYPRODUCTS
         ${LIBS}

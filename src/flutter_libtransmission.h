@@ -1,13 +1,3 @@
-#include <array>
-#include <cstring>
-#include <future>
-#include <string>
-
-#include "libtransmission/rpcimpl.h"
-#include "libtransmission/transmission.h"
-#include "libtransmission/utils.h"
-#include "libtransmission/variant.h"
-
 #if _WIN32
 #define FFI_PLUGIN_EXPORT extern "C" __declspec(dllexport)
 #elif __cplusplus
@@ -17,7 +7,7 @@
 #endif
 
 // Initialize a transmission session given a config dir and an app name.
-FFI_PLUGIN_EXPORT void init_session(char *config_dir, char *app_name);
+FFI_PLUGIN_EXPORT void init_session(char *config_dir);
 
 // Close transmission session.
 FFI_PLUGIN_EXPORT void close_session();

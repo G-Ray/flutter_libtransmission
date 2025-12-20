@@ -42,11 +42,11 @@ A new Flutter FFI plugin project.
                         cmake --build ../macos/build
                         cp -r ../macos/build/transmission-prefix/src/transmission/libtransmission/*.h ../macos/Classes/libtransmission
                         cp ../macos/build/transmission-prefix/src/transmission-build/libtransmission/libtransmission.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/crc32c.bld/pfx/lib/libcrc32c.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/dht.bld/pfx/lib/libdht.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/lib/libevent_core.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/lib/libevent_extra.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libpsl.bld/pfx/lib/libpsl.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libutp.bld/libutp.a ../macos/lib/
@@ -54,7 +54,7 @@ A new Flutter FFI plugin project.
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../macos/lib/
                    CMD
 
-  s.vendored_libraries = 'lib/libtransmission.a', 'lib/libdht.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent_core.a', 'lib/libevent_extra.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a',
+  s.vendored_libraries = 'lib/libtransmission.a', 'lib/libcrc32c.a', 'lib/libdht.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a',
 
   s.frameworks    = 'SystemConfiguration', 'Foundation', 'Security'
 end
