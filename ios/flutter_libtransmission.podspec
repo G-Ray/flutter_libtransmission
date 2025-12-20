@@ -54,6 +54,7 @@ A new Flutter FFI plugin project.
                         cmake --build ../ios/build
                         cp -r ../ios/build/transmission-prefix/src/transmission/libtransmission/*.h ../ios/Classes/libtransmission/
                         cp ../ios/build/transmission-prefix/src/transmission-build/libtransmission/libtransmission.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/crc32c.bld/pfx/lib/libcrc32c.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/dht.bld/pfx/lib/libdht.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../ios/lib/
@@ -65,7 +66,7 @@ A new Flutter FFI plugin project.
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../ios/lib/
                    CMD
 
-  s.vendored_libraries = 'lib/libtransmission.a', 'lib/libdht.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a'
+  s.vendored_libraries = 'lib/libtransmission.a', 'libcrc32c.a', 'lib/libdht.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a'
 
   s.frameworks    = 'SystemConfiguration', 'Foundation', 'Security'
 end
