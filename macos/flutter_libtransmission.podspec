@@ -54,7 +54,7 @@ A new Flutter FFI plugin project.
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../macos/lib/
                    CMD
 
-  s.vendored_libraries = 'lib/libtransmission.a', 'libcrc32c.a', 'lib/libdht.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a',
+  s.vendored_libraries = 'lib/libtransmission.a', 'lib/libcrc32c.a', 'lib/libdht.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a',
 
   s.frameworks    = 'SystemConfiguration', 'Foundation', 'Security'
 end
