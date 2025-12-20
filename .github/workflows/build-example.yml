@@ -43,6 +43,9 @@ jobs:
       - run: flutter build linux
 
   macos:
+    env:
+      # Should be same as defined in /app/macos/Runner.xcodeproj
+      MACOSX_DEPLOYMENT_TARGET: 10.14
     runs-on: macos-14
     defaults:
       run:
@@ -98,6 +101,7 @@ jobs:
     env:
       # Do not target simulator
       TARGET_IOS_DEVICE: true
+      IPHONEOS_DEPLOYMENT_TARGET: 12 # Should be same as defined in /app/ios/Runner.
     defaults:
       run:
         working-directory: ./example
