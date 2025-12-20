@@ -45,7 +45,7 @@ A new Flutter FFI plugin project.
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/dht.bld/pfx/lib/libdht.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../macos/lib/
-                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/lib/libevent.a ../macos/lib/
+                        cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libpsl.bld/pfx/lib/libpsl.a ../macos/lib/
                         cp ../macos/build/transmission-prefix/src/transmission-build/third-party/libutp.bld/libutp.a ../macos/lib/
