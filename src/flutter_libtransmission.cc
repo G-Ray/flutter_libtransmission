@@ -31,6 +31,7 @@ static void execute_request(callback_struct &cs) {
 FFI_PLUGIN_EXPORT void init_session(char *config_dir) {
   configDir = config_dir;
 
+  tr_lib_init();
   auto settings = tr_sessionLoadSettings(configDir);
   tr_variantDictAddBool(&settings, TR_KEY_rename_partial_files, false);
 
