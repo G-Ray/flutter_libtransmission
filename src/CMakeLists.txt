@@ -93,7 +93,7 @@ endif()
 ExternalProject_Add(transmission
         PREFIX ${TRANSMISSION_PREFIX}
         GIT_REPOSITORY https://github.com/G-Ray/transmission.git
-        GIT_TAG 62a9286873c590b9c44b28eb4634efae9e27a373 # streaming
+        GIT_TAG 51b63f6c3e877e0163d8886a6d796161ad5bf636 # main-pikatorrent
         INSTALL_COMMAND ""
         CMAKE_ARGS
                 ${CMAKE_ARGS}
