@@ -23,7 +23,7 @@ std::string configDir;
 
 
 static void execute_request(callback_struct &cs) {
-  tr_rpc_request_exec(session, cs.request, [&cs](tr_session* session, tr_variant&& resp) {
+  tr_rpc_request_exec(session, cs.request, [&cs](tr_variant&& resp) {
     cs.promise.set_value(tr_variant_serde::json().compact().to_string(resp));
   });
 }
@@ -59,7 +59,7 @@ FFI_PLUGIN_EXPORT char *request(char *json_string) {
   thread.join();
 
   char *response = new char[value.length() + 1];
-  std::strcpy(response, value.c_str());
+  std::memcpy(response, value.c_str(), value.length() + 1);
   return response;
 }
 

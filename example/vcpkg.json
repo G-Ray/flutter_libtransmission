@@ -1,6 +1,3 @@
 {
-  "dependencies": [
-    "curl",
-    "openssl"
-  ]
+  "dependencies": ["curl", "openssl"]
 }
