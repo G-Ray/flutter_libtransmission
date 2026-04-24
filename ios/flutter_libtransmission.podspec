@@ -26,7 +26,7 @@ A new Flutter FFI plugin project.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386', 'HEADER_SEARCH_PATHS' => '${PODS_TARGET_SRCROOT}/Classes' }
   s.swift_version = '5.0'
 
-  s.compiler_flags = '-std=c++17'
+  s.compiler_flags = '-std=c++20'
 
   s.prepare_command = <<-CMD
                         mkdir -p ./lib
@@ -50,23 +50,26 @@ A new Flutter FFI plugin project.
                         cd ../src
                         mkdir -p ../ios/build
                         mkdir -p ../ios/Classes/libtransmission
+                        mkdir -p ../ios/Classes/fmt
                         cmake -B ../ios/build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE="$(pwd)/ios.toolchain.cmake"
                         cmake --build ../ios/build
                         cp -r ../ios/build/transmission-prefix/src/transmission/libtransmission/*.h ../ios/Classes/libtransmission/
+                        cp -r ../ios/build/transmission-prefix/src/transmission/third-party/fmt/include/fmt/*.h ../ios/Classes/fmt/
                         cp ../ios/build/transmission-prefix/src/transmission-build/libtransmission/libtransmission.a ../ios/lib/
-                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/crc32c.bld/pfx/lib/libcrc32c.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/dht.bld/pfx/lib/libdht.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libb64.bld/src/libb64.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libdeflate.bld/pfx/lib/libdeflate.a ../ios/lib/
-                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/pfx/lib/libevent.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/lib/libevent_core.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libevent.bld/lib/libevent_extra.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libpsl.bld/pfx/lib/libpsl.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/libutp.bld/libutp.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/miniupnp/miniupnpc.bld/pfx/lib/libminiupnpc.a ../ios/lib/
                         cp ../ios/build/transmission-prefix/src/transmission-build/third-party/wildmat/libwildmat.a ../ios/lib/
+                        cp ../ios/build/transmission-prefix/src/transmission-build/third-party/madler-crcany/libMadlerCrcany.a ../ios/lib/
                    CMD
 
-  s.vendored_libraries = 'lib/libtransmission.a', 'lib/libcrc32c.a', 'lib/libdht.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a'
+  s.vendored_libraries = 'lib/libtransmission.a', 'lib/libdht.a', 'lib/libb64.a', 'lib/libdeflate.a', 'lib/libevent_core.a', 'lib/libevent_extra.a', 'lib/libnatpmp.a', 'lib/libpsl.a', 'lib/libutp.a', 'lib/libminiupnpc.a', 'lib/libwildmat.a', 'lib/libMadlerCrcany.a', 'lib/libz.a', 'lib/libcrypto.a', 'lib/libssl.a', 'lib/libcurl.a'
 
   s.frameworks    = 'SystemConfiguration', 'Foundation', 'Security'
 end

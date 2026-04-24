@@ -9,7 +9,7 @@ include(ExternalProject)
 project(flutter_libtransmission_library VERSION 0.0.1 LANGUAGES CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 # On Windows, build will probably fail due to https://gitlab.kitware.com/cmake/cmake/-/issues/25936
 # Set a custom TRANSMISSION_PREFIX env var to avoid this
@@ -24,11 +24,12 @@ SET(TRANSMISSION_BUILD_DIR "${TRANSMISSION_PREFIX}/src/transmission-build")
 if(LINUX OR ANDROID OR APPLE)
     SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/libtransmission.a
-                ${TRANSMISSION_BUILD_DIR}/third-party/crc32c.bld/pfx/lib/libcrc32c.a
+                ${TRANSMISSION_BUILD_DIR}/third-party/madler-crcany/libMadlerCrcany.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/libdht.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/libb64.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/libdeflate.a
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/libevent.a
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/libevent_core.a
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/libevent_extra.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libnatpmp.bld/pfx/lib/libnatpmp.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libpsl.bld/pfx/lib/libpsl.a
                 ${TRANSMISSION_BUILD_DIR}/third-party/libutp.bld/libutp.a
@@ -38,11 +39,12 @@ if(LINUX OR ANDROID OR APPLE)
 elseif(WIN32)
     SET(LIBS
                 ${TRANSMISSION_BUILD_DIR}/libtransmission/$<CONFIG>/transmission.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/crc32c.bld/pfx/lib/crc32c.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/madler-crcany/$<CONFIG>/MadlerCrcany.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/dht.bld/pfx/lib/dht.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libb64.bld/src/$<CONFIG>/b64.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libdeflate.bld/pfx/lib/deflatestatic.lib
-                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/pfx/lib/event.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/$<CONFIG>/event_core.lib
+                ${TRANSMISSION_BUILD_DIR}/third-party/libevent.bld/lib/$<CONFIG>/event_extra.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libnatpmp.bld/pfx/lib/natpmp.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libpsl.bld/pfx/lib/psl.lib
                 ${TRANSMISSION_BUILD_DIR}/third-party/libutp.bld/$<CONFIG>/utp.lib
@@ -93,7 +95,7 @@ endif()
 ExternalProject_Add(transmission
         PREFIX ${TRANSMISSION_PREFIX}
         GIT_REPOSITORY https://github.com/G-Ray/transmission.git
-        GIT_TAG 51b63f6c3e877e0163d8886a6d796161ad5bf636 # main-pikatorrent
+        GIT_TAG c3ff17924bf623d2434dea585f5d0943809964ec # main-pikatorrent
         INSTALL_COMMAND ""
         CMAKE_ARGS
                 ${CMAKE_ARGS}
@@ -117,15 +119,12 @@ ExternalProject_Add(transmission
                 "-DUSE_SYSTEM_EVENT2=OFF"
                 "-DUSE_SYSTEM_DEFLATE=OFF"
                 "-DUSE_SYSTEM_DHT=OFF"
-                # "-DUSE_SYSTEM_FAST_FLOAT=OFF"
-                # "-DUSE_SYSTEM_FMT=OFF"
+                "-DUSE_SYSTEM_FMT=OFF"
                 "-DUSE_SYSTEM_MINIUPNPC=OFF"
                 "-DUSE_SYSTEM_NATPMP=OFF"
                 "-DUSE_SYSTEM_UTP=OFF"
                 "-DUSE_SYSTEM_B64=OFF"
                 "-DUSE_SYSTEM_PSL=OFF"
-                # "-DUSE_SYSTEM_RAPIDJSON=OFF"
-                # "-DUSE_SYSTEM_UTF8CPP=OFF"
                 "-DRUN_CLANG_TIDY=OFF"
         BUILD_BYPRODUCTS
         ${LIBS}
@@ -142,6 +141,7 @@ add_dependencies(flutter_libtransmission transmission)
 
 ExternalProject_Get_property(transmission SOURCE_DIR)
 include_directories("${SOURCE_DIR}/")
+include_directories("${SOURCE_DIR}/third-party/fmt/include")
 
 if(APPLE)
     if(IOS)
@@ -188,7 +188,15 @@ set_target_properties(flutter_libtransmission PROPERTIES
 
 target_compile_definitions(flutter_libtransmission PUBLIC DART_SHARED_LIB)
 
+if (WIN32)
+    # Prevent windows.h from defining min/max macros that conflict with
+    # std::numeric_limits<T>::max() used in libtransmission headers.
+    target_compile_definitions(flutter_libtransmission PRIVATE NOMINMAX)
+    # fmt requires /utf-8 to compile with MSVC.
+    target_compile_options(flutter_libtransmission PRIVATE /utf-8)
+endif()
+
 if (ANDROID)
-    # Support Android 15 16k page size.
+    # Support Android 15 16k page size, and deterministic builds
     target_link_options(flutter_libtransmission PRIVATE "-Wl,-z,max-page-size=16384,--build-id=none,--hash-style=gnu")
 endif()
