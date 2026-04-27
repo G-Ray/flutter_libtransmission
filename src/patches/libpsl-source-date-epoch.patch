@@ -1,0 +1,12 @@
+From: flutter_libtransmission build
+Subject: psl-make-dafsa: honor SOURCE_DATE_EPOCH for reproducible builds
+
+Without this, the input file's mtime (which equals the git clone time, since
+git does not preserve mtimes) is baked into the generated _psl_file_time,
+making libpsl.a / libtransmission.a / the final .so non-reproducible.
+
+--- a/src/psl-make-dafsa
++++ b/src/psl-make-dafsa
+@@ -516 +516 @@
+-  text += b'static time_t _psl_file_time = %d;\n' % os.stat(psl_input_file).st_mtime
++  text += b'static time_t _psl_file_time = %d;\n' % int(os.environ.get('SOURCE_DATE_EPOCH', os.stat(psl_input_file).st_mtime))

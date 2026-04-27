@@ -96,6 +96,10 @@ ExternalProject_Add(transmission
         PREFIX ${TRANSMISSION_PREFIX}
         GIT_REPOSITORY https://github.com/G-Ray/transmission.git
         GIT_TAG c3ff17924bf623d2434dea585f5d0943809964ec # main-pikatorrent
+        # Patch psl-make-dafsa script to honor SOURCE_DATE_EPOCH. The leading
+        # `git checkout` resets the file so re-runs are idempotent.
+        PATCH_COMMAND git -C <SOURCE_DIR>/third-party/libpsl checkout HEAD -- src/psl-make-dafsa
+        COMMAND git -C <SOURCE_DIR>/third-party/libpsl apply --unidiff-zero ${CMAKE_CURRENT_SOURCE_DIR}/patches/libpsl-source-date-epoch.patch
         INSTALL_COMMAND ""
         CMAKE_ARGS
                 ${CMAKE_ARGS}
